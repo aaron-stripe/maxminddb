@@ -1,6 +1,7 @@
 require "maxminddb/version"
 require 'maxminddb/result'
 require 'ipaddr'
+require 'mmap'
 
 module MaxMindDB
 
@@ -18,7 +19,7 @@ module MaxMindDB
 
     def initialize(path)
       @path = path
-      @data = File.binread(path)
+      @data = Mmap.new(path, 'r')
 
       pos = @data.rindex(METADATA_BEGIN_MARKER)
       raise 'invalid file format' unless pos
