@@ -1,3 +1,24 @@
+# Stripe-specific notes
+
+Hello! Welcome to Stripe's form of the `maxminddb` Ruby gem. This is the gem we
+use to read MaxMind's geo IP database files. This fork exists to apply a
+performance optimization, which is, to use Mmap to avoid reading the entire
+database file into memory. We found that reading multiple databases into memory
+could cause serious memory pressure on some of our systems. This fork contains
+an optimization to use mmap to read the files with lower memory overhead.
+
+We did not try to get this patch landed upstream because this gem touts itself
+as a "pure ruby" implementation. Our optimization invalidates that as it relies
+on a C extension.
+
+The upstream gem has changed very little, and probably will not need to change
+much since the MaxMind DB spec is fairly straightforward.
+
+Love,
+@aaron
+
+---
+
 # maxminddb
 
 Pure Ruby [GeoIP2 MaxMind DB](http://maxmind.github.io/MaxMind-DB/) reader, which doesn't require [libmaxminddb](https://github.com/maxmind/libmaxminddb).
@@ -68,8 +89,8 @@ A MaxMindDB instance doesn't do any write operation after it is created. So we c
 
 ## Contributing
 
-1. Fork it ( http://github.com/yhirose/maxminddb/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+1.  Fork it ( http://github.com/yhirose/maxminddb/fork )
+2.  Create your feature branch (`git checkout -b my-new-feature`)
+3.  Commit your changes (`git commit -am 'Add some feature'`)
+4.  Push to the branch (`git push origin my-new-feature`)
+5.  Create new Pull Request
